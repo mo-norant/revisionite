@@ -11,9 +11,10 @@ using System;
 namespace AngularSPAWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180505134311_productinit")]
+    partial class productinit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,8 +91,6 @@ namespace AngularSPAWebAPI.Migrations
                     b.Property<float>("Price");
 
                     b.Property<string>("ProductTitle");
-
-                    b.Property<string>("URI");
 
                     b.Property<int>("Views");
 
