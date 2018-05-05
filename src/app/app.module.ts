@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import {ChipsModule} from 'primeng/chips';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 
 import { AppComponent } from './app.component';
@@ -45,7 +46,8 @@ import { ComputervisionService } from './computervision.service';
     CalendarModule,
     BrowserAnimationsModule,
     FileUploadModule,
-    ChipsModule
+    ChipsModule,
+    ProgressSpinnerModule
   ],
   providers: [MainService, AuthService, AuthGuard, ComputervisionService],
   bootstrap: [AppComponent]

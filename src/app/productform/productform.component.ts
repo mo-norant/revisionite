@@ -14,6 +14,7 @@ export class ProductformComponent implements OnInit {
   productname: string
   form: FormGroup
   productcategories: ProductCategories[];
+  loading: boolean;
 
   constructor(private formBuilder: FormBuilder, private visionapi: ComputervisionService) {
 
@@ -23,7 +24,7 @@ export class ProductformComponent implements OnInit {
       date: ['', [Validators.required]]
     });
 
-
+    
   }
 
   ngOnInit() {
@@ -31,8 +32,11 @@ export class ProductformComponent implements OnInit {
 
 
   uploadpicture($event){
+   this.productcategories = null;
+    this.loading = true;
     this.visionapi.GetAnnotationsofFile($event.files[0]).subscribe(data => {
-     this.productcategories = []
+      this.productcategories = [];
+
       data[0].labelAnnotations.forEach(element => {
 
         if(element.score >= 0.75){
@@ -40,7 +44,7 @@ export class ProductformComponent implements OnInit {
         }
 
       });
-      
+      this.loading = false;
     });
   }
 
