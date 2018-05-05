@@ -1,4 +1,4 @@
-﻿using IdentityServer4;
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -31,8 +31,8 @@ namespace AngularSPAWebAPI
         // Clients want to access resources.
         public static IEnumerable<Client> GetClients()
         {
-            // Clients credentials.
-            return new List<Client>
+      // Clients credentials.
+      return new List<Client>
             {
                 // http://docs.identityserver.io/en/release/reference/client.html.
                 new Client
@@ -42,7 +42,7 @@ namespace AngularSPAWebAPI
                     AllowAccessTokensViaBrowser = true,
                     RequireClientSecret = false, // This client does not need a secret to request tokens from the token endpoint.
 
-                    AccessTokenLifetime = 900, // Lifetime of access token in seconds.
+                    AccessTokenLifetime = 3600, // Lifetime of access token in seconds.
 
                     AllowedScopes = {
                         IdentityServerConstants.StandardScopes.OpenId, // For UserInfo endpoint.
@@ -57,8 +57,9 @@ namespace AngularSPAWebAPI
                     RefreshTokenExpiration = TokenExpiration.Sliding,
                     AllowedCorsOrigins = new List<string>
                     {
-                        "http://localhost:4200"
-                    } // Only for development.
+                        "http://localhost:4200",
+                        "*"
+                    }
                 }
             };
         }

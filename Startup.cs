@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.IO;
 using System.Linq;
 using AngularSPAWebAPI.Data;
 using AngularSPAWebAPI.Models;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace AngularSPAWebAPI
 {
@@ -31,7 +33,7 @@ namespace AngularSPAWebAPI
         {
             // SQLite & Identity.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -102,7 +104,25 @@ namespace AngularSPAWebAPI
                     });
             }
 
-            services.AddMvc();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
+      services.AddCors(options =>
+      {
+        options.AddPolicy("AllowAll",
+            builder =>
+            {
+              builder
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+            });
+      });
+
+      services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,7 +133,7 @@ namespace AngularSPAWebAPI
                 app.UseDeveloperExceptionPage();
 
                 // Starts "npm start" command using Shell extension.
-                app.Shell("npm start");
+                app.Shell("ng build");
             }
 
             // Router on the server must match the router on the client (see app.routing.module.ts) to use PathLocationStrategy.
@@ -125,17 +145,19 @@ namespace AngularSPAWebAPI
                  "/dashboard"
             };
 
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path.HasValue && appRoutes.Contains(context.Request.Path.Value))
-                {
-                    context.Request.Path = new PathString("/");
-                }
-
+            app.Use(async (context, next) => {
                 await next();
+                if (context.Response.StatusCode == 404 &&
+                   !Path.HasExtension(context.Request.Path.Value) &&
+                   !context.Request.Path.Value.StartsWith("/api/"))
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
             });
 
-            app.UseIdentityServer();
+      app.UseCors("AllowAll");
+      app.UseIdentityServer();
 
             app.UseMvc();
 
@@ -144,6 +166,16 @@ namespace AngularSPAWebAPI
             app.UseDefaultFiles();
             // Uses static file for the current path.
             app.UseStaticFiles();
+
+     
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
 }

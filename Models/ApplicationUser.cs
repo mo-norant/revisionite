@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace AngularSPAWebAPI.Models
 {
@@ -6,8 +7,11 @@ namespace AngularSPAWebAPI.Models
     public class ApplicationUser : IdentityUser
     {
         /// <summary>Given name(s) or first name(s) of the End-User.</summary>
-        public virtual string GivenName { get; set; }
+        public virtual string GivenName { get; set;}
         /// <summary>Surname(s) or last name(s) of the End-User.</summary>
         public virtual string FamilyName { get; set; }
-    }
+
+        public ICollection<Product> products { get; set; }
+
+  }
 }

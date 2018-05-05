@@ -1,4 +1,4 @@
-﻿using AngularSPAWebAPI.Models;
+using AngularSPAWebAPI.Models;
 using AngularSPAWebAPI.Models.AccountViewModels;
 using AngularSPAWebAPI.Services;
 using IdentityModel;
@@ -77,6 +77,11 @@ namespace AngularSPAWebAPI.Controllers
                 TwoFactorEnabled = false,
                 UserName = model.username
             };
+
+            if(model.password != model.password2)
+      {
+        return BadRequest("not same password");
+      }
 
             var result = await _userManager.CreateAsync(user, model.password);
 
