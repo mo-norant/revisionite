@@ -57,7 +57,7 @@ namespace AngularSPAWebAPI.Controllers
       return BadRequest();
     }
 
-    [HttpPost("File/{'id'}")]
+    [HttpPost("File/{id}")]
     public async Task<IActionResult> Product([FromRoute] int Id)
     {
       var user = await usermanager.GetUserAsync(User);
@@ -91,7 +91,7 @@ namespace AngularSPAWebAPI.Controllers
             }
           }
         }
-
+        await context.SaveChangesAsync();
         return Ok();
       }
 
