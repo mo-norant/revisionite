@@ -10,6 +10,6 @@ namespace AngularSPAWebAPI.Models
     public int ProductCategoryID { get; set; }
     public string ProductCategoryTitle { get; set; }
     public DateTime Date { get; set; }
-    public ICollection<Product> Products { get; set; }
+    public virtual ICollection<ProductProductCategory> ProductProductCategories { get; set; }
   }
 }

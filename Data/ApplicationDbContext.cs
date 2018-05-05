@@ -21,10 +21,21 @@ namespace AngularSPAWebAPI.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
-        }
+      builder.Entity<ProductProductCategory>()
+      .HasKey(pc => new { pc.ProductCategoryID, pc.ProductID });
+
+      builder.Entity<ProductProductCategory>()
+          .HasOne(pc => pc.Product)
+          .WithMany(p => p.ProductProductCategories)
+          .HasForeignKey(pc => pc.ProductID);
+
+      builder.Entity<ProductProductCategory>()
+          .HasOne(pc => pc.ProductCategory)
+          .WithMany(c => c.ProductProductCategories)
+          .HasForeignKey(pc => pc.ProductCategoryID);
+
+      base.OnModelCreating(builder);
+
     }
+  }
 }
