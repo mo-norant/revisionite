@@ -13,6 +13,7 @@ using AngularSPAWebAPI.Models;
 using AngularSPAWebAPI.Data;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using AngularSPAWebAPI.Models.AccountViewModels;
 
 namespace AngularSPAWebAPI.Controllers
 {
@@ -42,16 +43,52 @@ namespace AngularSPAWebAPI.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Product( [FromBody] Product product )
+    public async Task<IActionResult> Product( [FromBody] ProductPost temp )
     {
       var user = await usermanager.GetUserAsync(User);
 
+      var jointemps = new List<ProductProductCategory>();
+
       if(user != null)
       {
+
+        var product = new Product
+        {
+          UserID = user.Id,
+          Create = DateTime.Now,
+          Description = temp.Description,
+          EndTime = temp.EndTime,
+          ProductTitle = temp.ProductTitle,
+          Price = temp.Price
+
+        };
         product.UserID = user.Id;
         await context.Products.AddAsync(product);
         await context.SaveChangesAsync();
-        return Ok(product.ProductID);
+
+        foreach (var productcattemp in temp.ProductCategories)
+        {
+          var productcat = new ProductCategory
+          {
+            Date = DateTime.Now,
+            ProductCategoryTitle = productcattemp.ProductCategoryTitle
+            
+          };
+
+          await context.ProductCategories.AddAsync(productcat);
+          await context.SaveChangesAsync();
+
+          var ppc = new ProductProductCategory
+          {
+            Product = product,
+            ProductCategory = productcat
+          };
+
+          jointemps.Add(ppc);
+        }
+        await context.AddRangeAsync(jointemps);
+        await context.SaveChangesAsync();
+        return Ok(product);
       }
 
       return BadRequest();

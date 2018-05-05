@@ -94,7 +94,7 @@
                 <div class="form-group">
                   <label class="col-md-8 control-label" for="description">Description</label>
                   <div class="col-md-8">
-                    <textarea class="form-control" id="description" name="description"></textarea>
+                    <textarea class="form-control" id="description" formControlName="description" name="description"></textarea>
                   </div>
                 </div>
 
@@ -103,14 +103,14 @@
 
 
             <p class="lead">
-              <a class="btn btn-primary btn-lg mt-2" href="#" role="button">Learn more</a>
+              <button [disabled]="!form.valid || loading"  class="btn btn-primary btn-lg mt-2" (click)="postproduct()" role="button">Add product</button>
             </p>
           </div>
         </section>
         <div class="row">
           <div class="col"></div>
           <div class="col">
-            <p-progressSpinner *ngIf="loading"></p-progressSpinner>
+            <p-progressSpinner *ngIf="loading "></p-progressSpinner>
           </div>
           <div class="col">
         </div>
