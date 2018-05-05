@@ -41,7 +41,7 @@ namespace AngularSPAWebAPI.Controllers
       this.env = env;
     }
 
-    [HttpPost("Product")]
+    [HttpPost]
     public async Task<IActionResult> Product( [FromBody] Product product )
     {
       var user = await usermanager.GetUserAsync(User);
