@@ -4,7 +4,10 @@ import { MainService } from './main.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FileUploadModule } from 'primeng/fileupload';
+import { CalendarModule } from 'primeng/calendar';
+import {ChipsModule} from 'primeng/chips';
 
 
 import { AppComponent } from './app.component';
@@ -18,7 +21,7 @@ import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FrontpageComponent } from './frontpage/frontpage.component';
 import { ProductformComponent } from './productform/productform.component';
-import {CalendarModule} from 'primeng/calendar';
+import { ComputervisionService } from './computervision.service';
 
 
 @NgModule({
@@ -40,9 +43,11 @@ import {CalendarModule} from 'primeng/calendar';
     FormsModule,        
     ReactiveFormsModule,
     CalendarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FileUploadModule,
+    ChipsModule
   ],
-  providers: [MainService, AuthService, AuthGuard],
+  providers: [MainService, AuthService, AuthGuard, ComputervisionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

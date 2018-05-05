@@ -35,7 +35,22 @@
     <div class="col-sm-12">
       
       <section class="row">
-          <div class="col-md-12 col-lg-8">
+          <div class="col-md-12 col-lg-12">
+
+            <section>
+
+              <p-fileUpload (onRemove)="imageRemoved()" name="myfile[]"multiple="false" auto="true" customUpload="true" (uploadHandler)="uploadpicture($event)"  accept="image/*"></p-fileUpload>
+
+            </section>
+
+
+            <p-chips [(ngModel)]="productcategories">
+                <ng-template let-item pTemplate="item">
+                   {{item.productCategoryTitle}}  <p>  </p>
+                </ng-template>
+              </p-chips>
+
+              <section *ngIf="productcategories">
               <div class="jumbotron">
                 <h1 class="mb-4"> {{productname}}  </h1>
       
@@ -87,7 +102,7 @@
                   <a class="btn btn-primary btn-lg mt-2" href="#" role="button">Learn more</a>
                 </p>
               </div>
-      
+            </section>
       
             </div>
       </section>
