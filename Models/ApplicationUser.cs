@@ -11,7 +11,6 @@ namespace AngularSPAWebAPI.Models
         /// <summary>Surname(s) or last name(s) of the End-User.</summary>
         public virtual string FamilyName { get; set; }
 
-        public ICollection<Product> products { get; set; }
 
   }
 }

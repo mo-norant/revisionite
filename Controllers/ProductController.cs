@@ -48,6 +48,29 @@ namespace AngularSPAWebAPI.Controllers
 
       if(user != null)
       {
+        product.UserID = user.Id;
+        await context.Products.AddAsync(product);
+        await context.SaveChangesAsync();
+        return Ok(product.ProductID);
+      }
+
+      return BadRequest();
+    }
+
+    [HttpPost("File/{'id'}")]
+    public async Task<IActionResult> Product([FromRoute] int Id)
+    {
+      var user = await usermanager.GetUserAsync(User);
+
+      if (user != null)
+      {
+
+        var product = await context.Products.Where(p => p.ProductID == Id).Where(p => p.UserID == user.Id).FirstOrDefaultAsync();
+
+        if (product == null)
+        {
+          return NotFound();
+        }
 
         var files = HttpContext.Request.Form.Files;
 
@@ -68,12 +91,13 @@ namespace AngularSPAWebAPI.Controllers
             }
           }
         }
-        user.products.Add(product);
-        await context.SaveChangesAsync();
+
         return Ok();
       }
 
       return BadRequest();
+
+      }
+
     }
   }
-}

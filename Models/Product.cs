@@ -8,6 +8,7 @@ namespace AngularSPAWebAPI.Models
     public class Product
     {
     public int ProductID { get; set; }
+    public string UserID { get; set; }
     public string ProductTitle { get; set; }
     public string Description { get; set; }
     public int Views { get; set; }
