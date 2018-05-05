@@ -14,6 +14,7 @@ namespace AngularSPAWebAPI.Models
     public float Price { get; set; }
     public DateTime Create { get; set; }
     public DateTime EndTime { get; set; }
+    public string URI { get; set; }
     public virtual ICollection<ProductProductCategory> ProductProductCategories { get; set; }
   }
 }
