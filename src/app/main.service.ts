@@ -16,19 +16,13 @@ export class MainService {
 
 
   public AddProduct(product: Product){
-    return this.http.post<Product>(this.root + '/Product', product, {headers : this.auth.getAuthorizationHeaders()})
+    return this.http.post<number>(this.root + '/Product', product, {headers : this.auth.getAuthorizationHeaders()})
   }
 
   public PostProductPhoto(file: File, id: number) {
     let formData: FormData = new FormData();
     formData.append('uploadFile', file);
-
-    let headers = new HttpHeaders();
-    headers.append('Authorization', 'Bearer ' + this.auth.getToken().access_token);
-   // headers.append('Content-Type', 'multipart/form-data');
-    headers.append('Accept', 'application/json')
-
-    return this.http.post(this.root + "/Product/File/"+id, formData,{headers:headers});
+    return this.http.post(this.root + "/Product/File/"+id, formData,{headers : this.auth.getAuthorizationHeaders()});
 
   }
   

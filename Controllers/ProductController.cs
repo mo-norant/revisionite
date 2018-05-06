@@ -88,7 +88,7 @@ namespace AngularSPAWebAPI.Controllers
         }
         await context.AddRangeAsync(jointemps);
         await context.SaveChangesAsync();
-        return Ok(product);
+        return Ok(product.ProductID);
       }
 
       return BadRequest();

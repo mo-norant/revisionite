@@ -20,7 +20,7 @@ export class ProductformComponent implements OnInit {
   loading: boolean;
   file : File;
 
-  postedproduct: Product;
+  productid: number;
 
   constructor(private formBuilder: FormBuilder, private visionapi: ComputervisionService, private mainservice: MainService, private router: Router) {
 
@@ -75,9 +75,9 @@ export class ProductformComponent implements OnInit {
     product.productcategories = this.productcategories;
 
     this.mainservice.AddProduct(product).subscribe(data => {
-      this.postedproduct = data; 
+      this.productid = data; 
       this.loading = false
-      this.mainservice.PostProductPhoto(this.file, data.productID).subscribe(
+      this.mainservice.PostProductPhoto(this.file, data).subscribe(
         succes => {
           this.router.navigate(['dashboard'])
         }
