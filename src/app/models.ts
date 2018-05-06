@@ -1,3 +1,4 @@
+import { Product } from './models';
 export class Models {
 }
 
@@ -19,28 +20,7 @@ export class Product{
     
 }
 
-{
-    "productID": 0,
-    "userID": "string",
-    "productTitle": "string",
-    "description": "string",
-    "views": 0,
-    "price": 0,
-    "create": "2018-05-05T19:51:22.399Z",
-    "endTime": "2018-05-05T19:51:22.399Z",
-    "uri": "string",
-    "productProductCategories": [
-      {
-        "productID": 0,
-        "productCategoryID": 0,
-        "productCategory": {
-          "productCategoryID": 0,
-          "productCategoryTitle": "string",
-          "date": "2018-05-05T19:51:22.399Z",
-          "productProductCategories": [
-            null
-          ]
-        }
-      }
-    ]
-  }
+export class ProductProjection{
+  public product: Product
+  public productcategories : ProductCategorie[]
+}

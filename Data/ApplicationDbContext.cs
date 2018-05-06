@@ -21,6 +21,7 @@ namespace AngularSPAWebAPI.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+      
       builder.Entity<ProductProductCategory>()
       .HasKey(pc => new { pc.ProductCategoryID, pc.ProductID });
 

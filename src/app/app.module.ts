@@ -23,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FrontpageComponent } from './frontpage/frontpage.component';
 import { ProductformComponent } from './productform/productform.component';
 import { ComputervisionService } from './computervision.service';
+import { ProductlistComponent } from './productlist/productlist.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ComputervisionService } from './computervision.service';
     NotfoundComponent,
     RegisterComponent,
     FrontpageComponent,
-    ProductformComponent
+    ProductformComponent,
+    ProductlistComponent
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { LoginComponent } from './login/login.component';
+import { ProductlistComponent } from './productlist/productlist.component';
 
 
 export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot([
@@ -32,6 +33,10 @@ export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot([
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'products',
+        component: ProductlistComponent
     },
     {
         path: '**',

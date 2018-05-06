@@ -8,4 +8,3 @@
 \\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\bin\Debug\netcoreapp2.0\AngularSPAWebAPI.pdb
 \\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Debug\netcoreapp2.0\AngularSPAWebAPI.dll
 \\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Debug\netcoreapp2.0\AngularSPAWebAPI.pdb
-\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Debug\netcoreapp2.0\AngularSPAWebAPI.csprojResolveAssemblyReference.cache

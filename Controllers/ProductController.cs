@@ -9,10 +9,10 @@ using System.Linq;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using AngularSPAWebAPI.Models;
 using AngularSPAWebAPI.Data;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using AngularSPAWebAPI.Models;
 using AngularSPAWebAPI.Models.AccountViewModels;
 
 namespace AngularSPAWebAPI.Controllers
@@ -94,6 +94,84 @@ namespace AngularSPAWebAPI.Controllers
       return BadRequest();
     }
 
+    [HttpGet("count")]
+    public async Task<IActionResult> ProductCount()
+    {
+      var user = await usermanager.GetUserAsync(User);
+
+      if(user != null)
+      {
+
+        var productscount = await context.Products.Where(p => p.UserID == user.Id).CountAsync();
+
+        return Ok(productscount);
+      }
+
+      return BadRequest();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Product([FromQuery] int index, [FromQuery] int count )
+    {
+      var user = await usermanager.GetUserAsync(User);
+
+      if(user != null)
+      {
+        var actualcount = await context.Products.Where(p => p.UserID == user.Id).CountAsync();
+
+        if (actualcount == 0)
+        {
+          return NotFound("No items");
+        }
+
+        if (actualcount > index * count)
+        {
+          var products = await context.Products.Where(p => p.UserID == user.Id)
+                                            .Select(p => new
+                                            {
+                                              Product = p,
+                                              ProductCategory = p.ProductProductCategories.Select(pc => pc.ProductCategory)
+                                            }).Skip(index * count).Take(count).ToListAsync();
+
+          return Ok(products);
+
+        }
+
+        else
+        {
+
+          var tempindex = actualcount - count;
+
+          if(tempindex < 0)
+          {
+            count = actualcount;
+            tempindex = 0;
+          }
+
+          var products = await context.Products.Where(p => p.UserID == user.Id)
+                                            .Select(p => new
+                                            {
+                                              Product = p,
+                                              ProductCategory = p.ProductProductCategories.Select(pc => pc.ProductCategory)
+                                            }).Skip(tempindex).Take(count).ToListAsync();
+
+          return Ok(products);
+        }
+
+
+
+
+
+
+
+
+
+      }
+
+      return BadRequest();
+
+    }
+
     [HttpPost("File/{id}")]
     public async Task<IActionResult> Product([FromRoute] int Id)
     {
@@ -102,7 +180,7 @@ namespace AngularSPAWebAPI.Controllers
       if (user != null)
       {
 
-        var product = await context.Products.Where(p => p.ProductID == Id).Where(p => p.UserID == user.Id).FirstOrDefaultAsync();
+        var product = await context.Products.Where(i => i.UserID == user.Id).Where(i => i.ProductID == Id).FirstOrDefaultAsync();
 
         if (product == null)
         {
