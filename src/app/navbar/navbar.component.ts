@@ -1,3 +1,4 @@
+import { MainService } from './../main.service';
 import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,9 +10,16 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private auth: AuthService, private router: Router) { }
+  email : string;
+
+  constructor(private auth: AuthService, private router: Router, private mainservice: MainService) { }
 
   ngOnInit() {
+
+    this.mainservice.GetEmailUser().subscribe(data => {
+      this.email = data;
+    })
+  
   }
 
 

@@ -10,6 +10,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { ChipsModule } from 'primeng/chips';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { PaginatorModule } from 'primeng/paginator';
+import {TableModule} from 'primeng/table';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 
 import { AppComponent } from './app.component';
@@ -50,7 +53,10 @@ import { ProductlistComponent } from './productlist/productlist.component';
     BrowserAnimationsModule,
     FileUploadModule,
     ChipsModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    PaginatorModule,
+    TableModule,
+    ProgressBarModule
   ],
   providers: [MainService, AuthService, AuthGuard, ComputervisionService, {
     provide: HTTP_INTERCEPTORS,

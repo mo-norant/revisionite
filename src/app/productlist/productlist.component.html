@@ -7,28 +7,6 @@
       <h1 class="float-left text-center text-md-left">All my products</h1>
     </div>
 
-    <div class="dropdown user-dropdown col-md-6 col-lg-4 text-center text-md-right">
-      <a class="btn btn-stripped dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">
-        <img src="assets/images/profile-pic.jpg" alt="profile photo" class="circle float-left profile-photo" width="50" height="auto">
-
-        <div class="username mt-1">
-          <h4 class="mb-1">Username</h4>
-
-          <h6 class="text-muted">Super Admin</h6>
-        </div>
-      </a>
-
-      <div class="dropdown-menu dropdown-menu-right" style="margin-right: 1.5rem;" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" href="#">
-          <em class="fa fa-user-circle mr-1"></em> View Profile</a>
-        <a class="dropdown-item" href="#">
-          <em class="fa fa-sliders mr-1"></em> Preferences</a>
-        <a class="dropdown-item" href="#">
-          <em class="fa fa-power-off mr-1"></em> Logout</a>
-      </div>
-    </div>
-
     <div class="clear"></div>
   </header>
 
@@ -36,26 +14,34 @@
 
     <section class="row">
       <div class="col-md-12 col-lg-12">
+          <p-progressBar *ngIf="loading"  mode="indeterminate"></p-progressBar>
+        <p-paginator (onPageChange)="paginate($event)" [rows]="5" [totalRecords]="productcount" [rowsPerPageOptions]="[5,10,25,50]"></p-paginator>
 
-        <select>
-          <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
-  
-        <div class="row">
-          <div class="col"></div>
-          <div class="col">
-            <p-progressSpinner *ngIf="loading "></p-progressSpinner>
-          </div>
-          <div class="col">
-        </div>
+
+        <p-table [value]="productprojection">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Price</th>
+              <th>Productcategories</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>{{item.product.productID}}</td>
+              <td>{{item.product.productTitle}}</td>
+              <td>{{item.product.price}}</td>
+              <td> <div class="chip" *ngFor="let productcat of item.productCategory"> {{productcat.productCategoryTitle}}</div> </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+   
+
       </div>
+    </section>
 
   </div>
-  </section>
-
-</div>
 
 </div>
