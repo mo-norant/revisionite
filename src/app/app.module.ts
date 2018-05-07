@@ -1,3 +1,4 @@
+import { InterceptorService } from './interceptor.service';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { MainService } from './main.service';
@@ -7,8 +8,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
-import {ChipsModule} from 'primeng/chips';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { ChipsModule } from 'primeng/chips';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 import { AppComponent } from './app.component';
@@ -17,7 +18,7 @@ import { APP_ROUTING } from './routing';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FrontpageComponent } from './frontpage/frontpage.component';
@@ -43,7 +44,7 @@ import { ProductlistComponent } from './productlist/productlist.component';
     NgbModule.forRoot(),
     APP_ROUTING,
     HttpClientModule,
-    FormsModule,        
+    FormsModule,
     ReactiveFormsModule,
     CalendarModule,
     BrowserAnimationsModule,
@@ -51,7 +52,11 @@ import { ProductlistComponent } from './productlist/productlist.component';
     ChipsModule,
     ProgressSpinnerModule
   ],
-  providers: [MainService, AuthService, AuthGuard, ComputervisionService],
+  providers: [MainService, AuthService, AuthGuard, ComputervisionService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
