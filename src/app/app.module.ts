@@ -28,6 +28,7 @@ import { FrontpageComponent } from './frontpage/frontpage.component';
 import { ProductformComponent } from './productform/productform.component';
 import { ComputervisionService } from './computervision.service';
 import { ProductlistComponent } from './productlist/productlist.component';
+import { ProductComponent } from './product/product.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { ProductlistComponent } from './productlist/productlist.component';
     RegisterComponent,
     FrontpageComponent,
     ProductformComponent,
-    ProductlistComponent
+    ProductlistComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,

@@ -14,31 +14,31 @@
 
     <section class="row">
       <div class="col-md-12 col-lg-12">
-          <p-progressBar *ngIf="loading"  mode="indeterminate"></p-progressBar>
+        <p-progressBar *ngIf="loading"  mode="indeterminate"></p-progressBar>
         <p-paginator (onPageChange)="paginate($event)" [rows]="5" [totalRecords]="productcount" [rowsPerPageOptions]="[5,10,25,50]"></p-paginator>
-
-
-        <p-table [value]="productprojection">
+        <p-table  (onRowSelect)="onRowSelect($event)" selectionMode="single" [responsive]="true" [value]="productprojection">
           <ng-template pTemplate="header">
-            <tr>
+            <tr >
               <th>ID</th>
               <th>Title</th>
               <th>Price</th>
               <th>Productcategories</th>
+              <th>Edit</th>
+
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item>
-            <tr>
+            <tr >
               <td>{{item.product.productID}}</td>
               <td>{{item.product.productTitle}}</td>
               <td>{{item.product.price}}</td>
               <td> <div class="chip" *ngFor="let productcat of item.productCategory"> {{productcat.productCategoryTitle}}</div> </td>
+              <td> <p-button [routerLink]="'../product/'+item.product.productID"  icon="fa fa-fw fa-angle-right"></p-button>
+              </td>
+
             </tr>
           </ng-template>
         </p-table>
-
-   
-
       </div>
     </section>
 

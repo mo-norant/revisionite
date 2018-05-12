@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  email : string;
+  email;
 
   constructor(private auth: AuthService, private router: Router, private mainservice: MainService) { }
 

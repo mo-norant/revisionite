@@ -51,4 +51,8 @@ export class ProductlistComponent implements OnInit {
     });
   }
 
+onRowSelect($event){
+  console.log($event)
+}
+
 }

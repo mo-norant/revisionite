@@ -1,3 +1,4 @@
+import { ProductComponent } from './product/product.component';
 import { ProductformComponent } from './productform/productform.component';
 import { FrontpageComponent } from './frontpage/frontpage.component';
 import { AuthGuard } from './auth.guard';
@@ -37,6 +38,10 @@ export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot([
     {
         path: 'products',
         component: ProductlistComponent
+    },
+    {
+        path: 'product/:id',
+        component: ProductComponent
     },
     {
         path: '**',
