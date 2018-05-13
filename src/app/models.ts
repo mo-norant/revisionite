@@ -15,11 +15,7 @@ export class Product{
         public create : Date
         public endTime: Date
         public uri: string
-        public productcategories: ProductCategorie[]
+        public productCategories: ProductCategorie[]
     
 }
 
-export class ProductProjection{
-  public product: Product
-  public productcategories : ProductCategorie[]
-}

@@ -11,9 +11,10 @@ using System;
 namespace AngularSPAWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180512170634_products")]
+    partial class products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,7 +228,7 @@ namespace AngularSPAWebAPI.Migrations
 
             modelBuilder.Entity("AngularSPAWebAPI.Models.ProductCategory", b =>
                 {
-                    b.HasOne("AngularSPAWebAPI.Models.Product")
+                    b.HasOne("AngularSPAWebAPI.Models.Product", "product")
                         .WithMany("ProductCategories")
                         .HasForeignKey("ProductID");
                 });

@@ -1,4 +1,8 @@
+import { Product } from './../models';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MainService } from '../main.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -7,9 +11,76 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup
+  product: Product;
+  loading: boolean;
+  changed: boolean;
+  constructor(private formBuilder: FormBuilder,  private mainservice: MainService, private router: Router,
+    private route: ActivatedRoute,  ) { 
+      
+    }
 
   ngOnInit() {
+
+    this.route.params.subscribe( params => {
+      this.mainservice.GetProduct(params['id']).subscribe(res => {
+        this.product = res;
+  
+        this.form = this.formBuilder.group({
+          price: [this.product.price, [Validators.required]],
+          productname: [this.product.productTitle, [Validators.required]],
+          date: [new Date(this.product.endTime), [Validators.required]],
+          description: [this.product.description, [Validators.required]],
+          productcategories: [this.product.productCategories, [Validators.required]]
+        });
+        this.onChanges();
+
+
+      });
+    });
+
+   
+
+   
+   }
+
+   back(){
+        this.router.navigate(['products'])
+   }
+
+   update(){
+      this.mainservice.UpdateProduct(this.product).subscribe(res => {
+        this.router.navigate(['products'])
+      })
+     }
+
+   delete(){
+
+   }
+
+   private onChanges(): void {
+    this.form.valueChanges.subscribe(val => {
+      this.changedstate();
+      this.product = val;
+
+    });
   }
 
-}
+  private changedstate(){
+    if(this.form.valid){
+      this.changed = true;
+
+    }else{
+      this.changed = false;
+    }
+  }
+
+
+    
+
+  
+
+
+  }
+
+

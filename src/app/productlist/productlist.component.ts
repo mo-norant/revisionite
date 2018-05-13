@@ -1,4 +1,3 @@
-import { ProductProjection } from './../models';
 import { MainService } from './../main.service';
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../models';
@@ -14,7 +13,7 @@ export class ProductlistComponent implements OnInit {
   loading : boolean
   itemsperpage: number = 5;
   index: number = 0;
-  productprojection: ProductProjection[];
+  products: Product[];
   productcount : number
   constructor(private mainservice: MainService) { }
 
@@ -41,8 +40,9 @@ export class ProductlistComponent implements OnInit {
     this.mainservice.GetProductsCount().subscribe(t => {
       this.productcount = t;
       this.mainservice.GetProducts(this.index, this.itemsperpage).subscribe(res => {
+        console.log(res);
         this.loading = false;
-        this.productprojection = res;
+        this.products = res;
       }, err => {
         this.loading = false;
       })

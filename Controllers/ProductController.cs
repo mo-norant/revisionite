@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using AngularSPAWebAPI.Models;
 using AngularSPAWebAPI.Models.AccountViewModels;
+using Microsoft.AspNetCore.Cors;
 
 namespace AngularSPAWebAPI.Controllers
 {
@@ -43,11 +44,10 @@ namespace AngularSPAWebAPI.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Product( [FromBody] ProductPost temp )
+    public async Task<IActionResult> Product( [FromBody] Product temp )
     {
       var user = await usermanager.GetUserAsync(User);
 
-      var jointemps = new List<ProductProductCategory>();
 
       if(user != null)
       {
@@ -59,34 +59,12 @@ namespace AngularSPAWebAPI.Controllers
           Description = temp.Description,
           EndTime = temp.EndTime,
           ProductTitle = temp.ProductTitle,
-          Price = temp.Price
-
+          Price = temp.Price,
+          ProductCategories = temp.ProductCategories
+          
         };
         product.UserID = user.Id;
         await context.Products.AddAsync(product);
-        await context.SaveChangesAsync();
-
-        foreach (var productcattemp in temp.ProductCategories)
-        {
-          var productcat = new ProductCategory
-          {
-            Date = DateTime.Now,
-            ProductCategoryTitle = productcattemp.ProductCategoryTitle
-            
-          };
-
-          await context.ProductCategories.AddAsync(productcat);
-          await context.SaveChangesAsync();
-
-          var ppc = new ProductProductCategory
-          {
-            Product = product,
-            ProductCategory = productcat
-          };
-
-          jointemps.Add(ppc);
-        }
-        await context.AddRangeAsync(jointemps);
         await context.SaveChangesAsync();
         return Ok(product.ProductID);
       }
@@ -126,12 +104,8 @@ namespace AngularSPAWebAPI.Controllers
 
         if (actualcount > index * count)
         {
-          var products = await context.Products.Where(p => p.UserID == user.Id)
-                                            .Select(p => new
-                                            {
-                                              Product = p,
-                                              ProductCategory = p.ProductProductCategories.Select(pc => pc.ProductCategory)
-                                            }).Skip(index * count).Take(count).ToListAsync();
+          var products = await context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories)
+            .Skip(index * count).Take(count).ToListAsync();
 
           return Ok(products);
 
@@ -148,12 +122,7 @@ namespace AngularSPAWebAPI.Controllers
             tempindex = 0;
           }
 
-          var products = await context.Products.Where(p => p.UserID == user.Id)
-                                            .Select(p => new
-                                            {
-                                              Product = p,
-                                              ProductCategory = p.ProductProductCategories.Select(pc => pc.ProductCategory)
-                                            }).Skip(tempindex).Take(count).ToListAsync();
+          var products = await context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories).Skip(tempindex).Take(count).ToListAsync();
 
           return Ok(products);
         }
@@ -214,5 +183,75 @@ namespace AngularSPAWebAPI.Controllers
 
       }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetProduct([FromRoute] int id)
+    {
+      var user = await usermanager.GetUserAsync(User);
+
+      if(user != null)
+      {
+        var item = await context.Products.Where(i => i.ProductID == id).Where(i => i.UserID == user.Id).Include(p => p.ProductCategories).FirstOrDefaultAsync();
+
+        if(item == null)
+        {
+          return NotFound();
+        }
+
+        return Ok(item);
+
+      }
+
+      return BadRequest();
+    }
+
+   [HttpPost("{id}")]
+   public async Task<IActionResult> UpdateProduct([FromBody] Product product)
+    {
+      var user = await usermanager.GetUserAsync(User);
+
+      if(user != null)
+      {
+        var old = await context.Products.Where(i => product.ProductID == product.ProductID).Where(i => i.UserID == product.UserID).FirstOrDefaultAsync();
+        if(old == null)
+        {
+          return NotFound();
+        }
+
+        context.Entry(old).CurrentValues.SetValues(product);
+
+        foreach (var pc in old.ProductCategories.ToList())
+        {
+          if (!product.ProductCategories.Any(c => c.ProductCategoryID == pc.ProductCategoryID))
+            context.ProductCategories.Remove(pc);
+        }
+
+        foreach (var pc in product.ProductCategories)
+        {
+          var existingChild = old.ProductCategories
+              .Where(c => c.ProductCategoryID == pc.ProductCategoryID)
+              .SingleOrDefault();
+
+          if (existingChild != null)
+            // Update child
+            context.Entry(existingChild).CurrentValues.SetValues(pc);
+          else
+          {
+            // Insert child
+            var productcat = new ProductCategory
+            {
+              ProductCategoryTitle = pc.ProductCategoryTitle,
+              Date = DateTime.Now
+
+            };
+            old.ProductCategories.Add(productcat);
+          }
+        }
+        await context.SaveChangesAsync();
+        return Ok();
+
+      }
+
+      return BadRequest();
+    }
     }
   }

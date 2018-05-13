@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { Product, ProductProjection } from './models';
+import { Product } from './models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Utils } from './utils';
@@ -32,11 +32,19 @@ export class MainService {
   }
 
   public GetProducts(index : number, count : number){
-    return this.http.get<ProductProjection[]>(this.root + 'Product?index=' + index + '&count=' + count, {headers : this.auth.getAuthorizationHeaders()});
+    return this.http.get<Product[]>(this.root + 'Product?index=' + index + '&count=' + count, {headers : this.auth.getAuthorizationHeaders()});
   }
 
   public GetProductsCount(){
     return this.http.get<number>(this.root + 'Product/count', {headers : this.auth.getAuthorizationHeaders()});
+  }
+
+  public GetProduct(id : number){
+    return this.http.get<Product>(this.root + '/Product/'+id, {headers : this.auth.getAuthorizationHeaders()});
+  }
+
+  public UpdateProduct(product: Product){
+    return this.http.post(this.root + 'Product', product, {headers : this.auth.getAuthorizationHeaders()} )
   }
 
 }

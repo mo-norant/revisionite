@@ -4,7 +4,7 @@
   
     <header class="page-header row justify-center">
       <div class="col-md-6 col-lg-8">
-        <h1 class="float-left text-center text-md-left">Item</h1>
+        <h1 class="float-left text-center text-md-left">{{product?.productTitle}}</h1>
       </div>
   
      
@@ -14,14 +14,71 @@
   
     <div class="col-sm-12">
       
-      <section class="row"></section>
+      <section *ngIf="product" class="row">
+
+        <form  [formGroup]="form" class="form-horizontal">
+          <fieldset>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="productname">Productname</label>
+              <div class="">
+                <input id="productname" formControlName="productname" name="productname" type="text" placeholder=""
+                  class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="productprice">Productprice</label>
+              <div >
+                <input id="productprice" formControlName="price" name="productprice" type="text" placeholder="" class="form-control input-md">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="availeblefrom">Available till</label>
+              <div class="">
+                <p-calendar showTime="true" formControlName="date"></p-calendar>
+
+              </div>
+            </div>
 
 
-      <section class="row">
-        <div class="col-12 mt-1 mb-4">Template by
-          <a href="https://www.medialoot.com">Medialoot</a>
-        </div>
+
+            <!-- Textarea -->
+            <div class="form-group">
+              <label class="control-label" for="description">Description</label>
+              <div >
+                <textarea class="form-control" id="description" formControlName="description" name="description"></textarea>
+              </div>
+            </div>
+
+            <p-chips formControlName="productcategories">
+              <ng-template let-item pTemplate="item">
+                  {{item.productCategoryTitle}}  <i class="fa fa-close"></i>
+              </ng-template>
+          </p-chips>
+
+          </fieldset>
+        </form>
+
       </section>
+
+      <div class="row mt-5">
+
+        <button pButton type="button" (click)="back()" label="back"></button>
+        <button pButton type="button" [disabled]="!changed" (click)="update()" label="update"  class=" ml-2  ui-button-info"></button>
+        <button pButton type="button" (click)="delete()" label="delete"  class=" ml-2 ui-button-danger"></button>
+
+
+      </div>
+
+
+      
     </div>
   
   </div>

@@ -60,6 +60,7 @@ namespace AngularSPAWebAPI
                         "http://localhost:4200",
                         "*"
                     }
+
                 }
             };
         }

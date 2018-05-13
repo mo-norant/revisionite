@@ -72,7 +72,7 @@ export class ProductformComponent implements OnInit {
     product.productTitle = this.form.value.productname,
     product.description = this.form.value.description,
     product.price = this.form.value.price;
-    product.productcategories = this.productcategories;
+    product.productCategories = this.productcategories;
 
     this.mainservice.AddProduct(product).subscribe(data => {
       this.productid = data; 

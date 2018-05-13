@@ -35,7 +35,21 @@ namespace AngularSPAWebAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+
+      services.AddCors(options =>
+      {
+        options.AddPolicy("AllowAll",
+            builder =>
+            {
+              builder
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+            });
+      });
+
+      services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -109,18 +123,6 @@ namespace AngularSPAWebAPI
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-      services.AddCors(options =>
-      {
-        options.AddPolicy("AllowAll",
-            builder =>
-            {
-              builder
-              .AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
-            });
-      });
 
       services.AddMvc();
         }
@@ -155,11 +157,10 @@ namespace AngularSPAWebAPI
                     await next();
                 }
             });
-
       app.UseCors("AllowAll");
       app.UseIdentityServer();
 
-            app.UseMvc();
+      app.UseMvc();
 
             // Microsoft.AspNetCore.StaticFiles: API for starting the application from wwwroot.
             // Uses default files as index.html.
