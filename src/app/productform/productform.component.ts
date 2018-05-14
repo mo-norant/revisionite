@@ -49,7 +49,7 @@ export class ProductformComponent implements OnInit {
       data[0].labelAnnotations.forEach(element => {
 
         if(element.score >= 0.75){
-          this.productcategories.push(new ProductCategorie(element.description))
+          this.productcategories.push(new ProductCategorie(0, element.description))
         }
 
       });

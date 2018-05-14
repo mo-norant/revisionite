@@ -1,3 +1,4 @@
+import { ProductcategoriesComponent } from './productcategories/productcategories.component';
 import { ProductComponent } from './product/product.component';
 import { ProductformComponent } from './productform/productform.component';
 import { FrontpageComponent } from './frontpage/frontpage.component';
@@ -42,6 +43,10 @@ export const APP_ROUTING: ModuleWithProviders = RouterModule.forRoot([
     {
         path: 'product/:id',
         component: ProductComponent
+    },
+    {
+        path: 'productcategory',
+        component: ProductcategoriesComponent
     },
     {
         path: '**',

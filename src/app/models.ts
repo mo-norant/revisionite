@@ -1,8 +1,6 @@
-export class Models {
-}
-
 export class ProductCategorie{
-    constructor( public productCategoryTitle :string){}
+
+    constructor(public productCategoryID : number, public productCategoryTitle: string){}
 }
 
 export class Product{

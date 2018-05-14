@@ -13,7 +13,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { PaginatorModule } from 'primeng/paginator';
 import {TableModule} from 'primeng/table';
 import {ProgressBarModule} from 'primeng/progressbar';
-
+import {DialogModule} from 'primeng/dialog';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -29,6 +29,7 @@ import { ProductformComponent } from './productform/productform.component';
 import { ComputervisionService } from './computervision.service';
 import { ProductlistComponent } from './productlist/productlist.component';
 import { ProductComponent } from './product/product.component';
+import { ProductcategoriesComponent } from './productcategories/productcategories.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ProductComponent } from './product/product.component';
     FrontpageComponent,
     ProductformComponent,
     ProductlistComponent,
-    ProductComponent
+    ProductComponent,
+    ProductcategoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,8 @@ import { ProductComponent } from './product/product.component';
     ProgressSpinnerModule,
     PaginatorModule,
     TableModule,
-    ProgressBarModule
+    ProgressBarModule,
+    DialogModule
   ],
   providers: [MainService, AuthService, AuthGuard, ComputervisionService, {
     provide: HTTP_INTERCEPTORS,

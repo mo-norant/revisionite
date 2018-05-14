@@ -15,8 +15,8 @@
     <section class="row">
       <div class="col-md-12 col-lg-12">
         <p-progressBar *ngIf="loading"  mode="indeterminate"></p-progressBar>
-        <p-paginator (onPageChange)="paginate($event)" [rows]="5" [totalRecords]="productcount" [rowsPerPageOptions]="[5,10,25,50]"></p-paginator>
-        <p-table  (onRowSelect)="onRowSelect($event)" selectionMode="single" [responsive]="true" [value]="products">
+        <p-paginator (onPageChange)="paginate($event)" [rows]="itemsperpage" [totalRecords]="productcount" [rowsPerPageOptions]="[5,10,25,50]"></p-paginator>
+        <p-table   (onRowSelect)="onRowSelect($event)" selectionMode="single" [responsive]="true" [value]="products">
           <ng-template pTemplate="header">
             <tr >
               <th>ID</th>
@@ -24,7 +24,6 @@
               <th>Price</th>
               <th>Productcategories</th>
               <th>Edit</th>
-
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item>
@@ -35,7 +34,6 @@
               <td> <div class="chip" *ngFor="let productcat of item.productCategories"> {{productcat.productCategoryTitle}}</div> </td>
               <td> <p-button [routerLink]="['../product', item.productID]"  icon="fa fa-fw fa-angle-right"></p-button>
               </td>
-
             </tr>
           </ng-template>
         </p-table>

@@ -41,8 +41,32 @@ namespace AngularSPAWebAPI.Controllers
       this.env = env;
     }
 
+    [HttpGet("count")]
+    public async Task<IActionResult> GetCount()
+    {
+      var user = await usermanager.GetUserAsync(User);
+
+      if (user != null)
+      {
+        var products = await context.Products.Where(i => i.UserID == user.Id).Include(i => i.ProductCategories).ToListAsync();
+        List<ProductCategory> pcs = new List<ProductCategory>();
+        foreach (var pro in products)
+        {
+          foreach (var pc in pro.ProductCategories)
+          {
+            pcs.Add(pc);
+          }
+        }
+
+        return Ok(pcs.Count);
+      }
+
+      return BadRequest();
+
+    }
+
     [HttpGet]
-    public async Task<IActionResult> GetProductCategories()
+    public async Task<IActionResult> GetProductCategories([FromQuery] int index, [FromQuery] int count)
     {
       var user = await usermanager.GetUserAsync(User);
 
@@ -58,11 +82,41 @@ namespace AngularSPAWebAPI.Controllers
           }
         }
 
-        return Ok(pcs);
+        return Ok(pcs.Skip(index*count).Take(count));
       }
 
       return BadRequest();
 
+    }
+
+    [HttpPost("{id}")]
+    public async Task<IActionResult> UpdateProductCategory([FromRoute] int id, [FromQuery] string newtitle)
+    {
+
+      var item = await context.ProductCategories.Where(i => i.ProductCategoryID == id).FirstOrDefaultAsync();
+
+      if(item != null)
+      {
+        item.ProductCategoryTitle = newtitle;
+        await context.SaveChangesAsync();
+        return Ok();
+      }
+
+      return BadRequest();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProductCategory([FromRoute] int id)
+    {
+      var pc = await context.ProductCategories.Where(i => i.ProductCategoryID == id).FirstOrDefaultAsync();
+      if(pc !=null)
+      {
+        context.Remove(pc);
+        await context.SaveChangesAsync();
+        return Ok();
+      }
+
+      return BadRequest();
     }
 
   }

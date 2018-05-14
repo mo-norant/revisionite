@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { Product } from './models';
+import { Product, ProductCategorie } from './models';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Utils } from './utils';
@@ -54,4 +54,20 @@ export class MainService {
 
   }
 
+
+  public GetProductCategoriesCount(){
+    return this.http.get<number>(this.root + 'ProductCategory/count', {headers : this.auth.getAuthorizationHeaders()});
+  }
+  public GetProductCategories(index : number, count : number){
+    return this.http.get<ProductCategorie[]>(this.root + 'ProductCategory?index=' + index + '&count=' + count, {headers : this.auth.getAuthorizationHeaders()});
+  }
+
+  public UpdateProductCategory(id : number, newtitle : string){
+    return this.http.post(this.root + 'ProductCategory/'+id+"?newtitle="+newtitle, null,{headers : this.auth.getAuthorizationHeaders()});
+  }
+
+  public DeleteProduct(id: number){
+    return this.http.delete(this.root + 'ProductCategory/' + id, {headers : this.auth.getAuthorizationHeaders()} )
+
+  }
 }
