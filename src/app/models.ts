@@ -7,7 +7,7 @@ export class ProductCategorie{
 
 export class Product{
         public productID: number
-         public userID: string
+        public userID: string
         public productTitle: string
         public description: string
         public views : number

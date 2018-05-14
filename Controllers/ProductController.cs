@@ -146,6 +146,57 @@ namespace AngularSPAWebAPI.Controllers
 
     }
 
+    [HttpPost("update/{id}")]
+    public async Task<IActionResult> UpdateProduct([FromBody] Product product, [FromRoute] int ID)
+    {
+      var user = await usermanager.GetUserAsync(User);
+
+      if (user != null)
+      {
+        var old = await context.Products.Where(i => product.ProductID == product.ProductID).Where(i => i.UserID == product.UserID).FirstOrDefaultAsync();
+        if (old == null)
+        {
+          return NotFound();
+        }
+
+
+        context.Entry(old).CurrentValues.SetValues(product);
+
+        foreach (var pc in old.ProductCategories.ToList())
+        {
+          if (!product.ProductCategories.Any(c => c.ProductCategoryID == pc.ProductCategoryID))
+            context.ProductCategories.Remove(pc);
+        }
+
+        foreach (var pc in product.ProductCategories)
+        {
+          var existingChild = old.ProductCategories
+              .Where(c => c.ProductCategoryID == pc.ProductCategoryID)
+              .SingleOrDefault();
+
+          if (existingChild != null)
+            // Update child
+            context.Entry(existingChild).CurrentValues.SetValues(pc);
+          else
+          {
+            // Insert child
+            var productcat = new ProductCategory
+            {
+              ProductCategoryTitle = pc.ProductCategoryTitle,
+              Date = DateTime.Now
+            };
+            old.ProductCategories.Add(productcat);
+          }
+        }
+        await context.SaveChangesAsync();
+        return Ok();
+
+      }
+
+      return BadRequest();
+    }
+
+
     [HttpPost("File/{id}")]
     public async Task<IActionResult> Product([FromRoute] int Id)
     {
@@ -188,6 +239,26 @@ namespace AngularSPAWebAPI.Controllers
 
       }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+    {
+      var user = await usermanager.GetUserAsync(User);
+
+      if(user != null)
+      {
+        var item = await context.Products.Where(p => p.ProductID == id).Where(i => i.UserID == user.Id).Include(i => i.ProductCategories).FirstOrDefaultAsync();
+
+        context.RemoveRange(item.ProductCategories);
+        context.Remove(item);
+        await context.SaveChangesAsync();
+        return Ok();
+
+      }
+
+      return BadRequest();
+
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProduct([FromRoute] int id)
     {
@@ -209,54 +280,5 @@ namespace AngularSPAWebAPI.Controllers
       return BadRequest();
     }
 
-   [HttpPost("{id}")]
-   public async Task<IActionResult> UpdateProduct([FromBody] Product product)
-    {
-      var user = await usermanager.GetUserAsync(User);
-
-      if(user != null)
-      {
-        var old = await context.Products.Where(i => product.ProductID == product.ProductID).Where(i => i.UserID == product.UserID).FirstOrDefaultAsync();
-        if(old == null)
-        {
-          return NotFound();
-        }
-
-        context.Entry(old).CurrentValues.SetValues(product);
-
-        foreach (var pc in old.ProductCategories.ToList())
-        {
-          if (!product.ProductCategories.Any(c => c.ProductCategoryID == pc.ProductCategoryID))
-            context.ProductCategories.Remove(pc);
-        }
-
-        foreach (var pc in product.ProductCategories)
-        {
-          var existingChild = old.ProductCategories
-              .Where(c => c.ProductCategoryID == pc.ProductCategoryID)
-              .SingleOrDefault();
-
-          if (existingChild != null)
-            // Update child
-            context.Entry(existingChild).CurrentValues.SetValues(pc);
-          else
-          {
-            // Insert child
-            var productcat = new ProductCategory
-            {
-              ProductCategoryTitle = pc.ProductCategoryTitle,
-              Date = DateTime.Now
-
-            };
-            old.ProductCategories.Add(productcat);
-          }
-        }
-        await context.SaveChangesAsync();
-        return Ok();
-
-      }
-
-      return BadRequest();
-    }
-    }
+   }
   }

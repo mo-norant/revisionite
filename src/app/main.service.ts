@@ -43,8 +43,15 @@ export class MainService {
     return this.http.get<Product>(this.root + '/Product/'+id, {headers : this.auth.getAuthorizationHeaders()});
   }
 
-  public UpdateProduct(product: Product){
-    return this.http.post(this.root + 'Product', product, {headers : this.auth.getAuthorizationHeaders()} )
+  public UpdateProduct(id: number, product: Product){
+
+
+    return this.http.post(this.root + 'Product/update/' + id, product, {headers : this.auth.getAuthorizationHeaders()} )
+  }
+
+  public DeleteProduct(id: number, product: Product){
+    return this.http.delete(this.root + 'Product/' + id, {headers : this.auth.getAuthorizationHeaders()} )
+
   }
 
 }

@@ -15,6 +15,7 @@ export class ProductComponent implements OnInit {
   product: Product;
   loading: boolean;
   changed: boolean;
+  ID: number;
   constructor(private formBuilder: FormBuilder,  private mainservice: MainService, private router: Router,
     private route: ActivatedRoute,  ) { 
       
@@ -24,8 +25,8 @@ export class ProductComponent implements OnInit {
 
     this.route.params.subscribe( params => {
       this.mainservice.GetProduct(params['id']).subscribe(res => {
+        this.ID = params['id'];
         this.product = res;
-  
         this.form = this.formBuilder.group({
           price: [this.product.price, [Validators.required]],
           productname: [this.product.productTitle, [Validators.required]],
@@ -49,13 +50,16 @@ export class ProductComponent implements OnInit {
    }
 
    update(){
-      this.mainservice.UpdateProduct(this.product).subscribe(res => {
+      this.mainservice.UpdateProduct(this.ID, this.product).subscribe(res => {
         this.router.navigate(['products'])
       })
      }
 
    delete(){
-
+    this.mainservice.DeleteProduct(this.ID, this.product).subscribe(res => {
+      console.log('product verwijderd')
+      this.router.navigate(['products'])
+    })
    }
 
    private onChanges(): void {
