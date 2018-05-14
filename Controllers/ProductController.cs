@@ -52,6 +52,11 @@ namespace AngularSPAWebAPI.Controllers
       if(user != null)
       {
 
+        foreach (var pc in temp.ProductCategories)
+        {
+          pc.Date = DateTime.Now;
+        }
+
         var product = new Product
         {
           UserID = user.Id,

@@ -24,6 +24,9 @@ namespace AngularSPAWebAPI
         {
             Configuration = configuration;
             currentEnvironment = env;
+
+      CreatePaths();
+
         }
 
         public IConfiguration Configuration { get; }
@@ -178,5 +181,14 @@ namespace AngularSPAWebAPI
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
         }
+
+    private void CreatePaths()
+    {
+     
+      string path = currentEnvironment.WebRootPath + "uploads\\image";
+
+      if (!Directory.Exists(path))
+        Directory.CreateDirectory(path);
     }
+  }
 }

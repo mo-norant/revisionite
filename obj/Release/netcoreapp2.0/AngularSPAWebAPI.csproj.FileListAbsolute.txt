@@ -1,0 +1,11 @@
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\bin\Release\netcoreapp2.0\AngularSPAWebAPI.deps.json
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\bin\Release\netcoreapp2.0\AngularSPAWebAPI.runtimeconfig.json
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\bin\Release\netcoreapp2.0\AngularSPAWebAPI.runtimeconfig.dev.json
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\bin\Release\netcoreapp2.0\AngularSPAWebAPI.dll
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\bin\Release\netcoreapp2.0\AngularSPAWebAPI.pdb
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Release\netcoreapp2.0\AngularSPAWebAPI.csprojResolveAssemblyReference.cache
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Release\netcoreapp2.0\AngularSPAWebAPI.csproj.CoreCompileInputs.cache
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Release\netcoreapp2.0\AngularSPAWebAPI.AssemblyInfoInputs.cache
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Release\netcoreapp2.0\AngularSPAWebAPI.AssemblyInfo.cs
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Release\netcoreapp2.0\AngularSPAWebAPI.dll
+\\Mac\Home\Desktop\2017-2018\cloudapi\AngularSPAWebAPI\obj\Release\netcoreapp2.0\AngularSPAWebAPI.pdb
