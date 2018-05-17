@@ -20,11 +20,11 @@ namespace AngularSPAWebAPI.Controllers
   public class ProductCategoryController : Controller
   {
     
-    private readonly UserManager<ApplicationUser> usermanager;
-    private readonly RoleManager<IdentityRole> rolemanager;
-    private readonly SignInManager<ApplicationUser> signinmanager;
-    private readonly ApplicationDbContext context;
-    private readonly IHostingEnvironment env;
+    private readonly UserManager<ApplicationUser> _usermanager;
+    private readonly RoleManager<IdentityRole> _rolemanager;
+    private readonly SignInManager<ApplicationUser> _signinmanager;
+    private readonly ApplicationDbContext _context;
+    private readonly IHostingEnvironment _env;
 
 
     public ProductCategoryController(
@@ -34,58 +34,44 @@ namespace AngularSPAWebAPI.Controllers
         ApplicationDbContext context, IHostingEnvironment env
             )
     {
-      this.usermanager = usermanager;
-      this.rolemanager = rolemanager;
-      this.signinmanager = signinmanager;
-      this.context = context;
-      this.env = env;
+      this._usermanager = usermanager;
+      this._rolemanager = rolemanager;
+      this._signinmanager = signinmanager;
+      this._context = context;
+      this._env = env;
     }
 
     [HttpGet("count")]
     public async Task<IActionResult> GetCount()
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
-      if (user != null)
+      if (user == null) return BadRequest();
+      var products = await _context.Products.Where(i => i.UserID == user.Id).Include(i => i.ProductCategories).ToListAsync();
+      var pcs = new List<ProductCategory>();
+      foreach (var pro in products)
       {
-        var products = await context.Products.Where(i => i.UserID == user.Id).Include(i => i.ProductCategories).ToListAsync();
-        List<ProductCategory> pcs = new List<ProductCategory>();
-        foreach (var pro in products)
-        {
-          foreach (var pc in pro.ProductCategories)
-          {
-            pcs.Add(pc);
-          }
-        }
-
-        return Ok(pcs.Count);
+        pcs.AddRange(pro.ProductCategories);
       }
 
-      return BadRequest();
+      return Ok(pcs.Count);
 
     }
 
     [HttpGet]
     public async Task<IActionResult> GetProductCategories([FromQuery] int index, [FromQuery] int count)
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
-      if(user != null)
+      if (user == null) return BadRequest();
+      var products = await _context.Products.Where(i => i.UserID == user.Id).Include(i => i.ProductCategories).ToListAsync();
+      var pcs = new List<ProductCategory>();
+      foreach (var pro in products)
       {
-        var products = await context.Products.Where(i => i.UserID == user.Id).Include(i => i.ProductCategories).ToListAsync();
-        List<ProductCategory> pcs = new List<ProductCategory>();
-        foreach (var pro in products)
-        {
-          foreach (var pc in pro.ProductCategories)
-          {
-            pcs.Add(pc);
-          }
-        }
-
-        return Ok(pcs.Skip(index*count).Take(count));
+        pcs.AddRange(pro.ProductCategories);
       }
 
-      return BadRequest();
+      return Ok(pcs.Skip(index*count).Take(count));
 
     }
 
@@ -93,30 +79,24 @@ namespace AngularSPAWebAPI.Controllers
     public async Task<IActionResult> UpdateProductCategory([FromRoute] int id, [FromQuery] string newtitle)
     {
 
-      var item = await context.ProductCategories.Where(i => i.ProductCategoryID == id).FirstOrDefaultAsync();
+      var item = await _context.ProductCategories.Where(i => i.ProductCategoryID == id).FirstOrDefaultAsync();
 
-      if(item != null)
-      {
-        item.ProductCategoryTitle = newtitle;
-        await context.SaveChangesAsync();
-        return Ok();
-      }
+      if (item == null) return BadRequest();
+      item.ProductCategoryTitle = newtitle;
+      await _context.SaveChangesAsync();
+      return Ok();
 
-      return BadRequest();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProductCategory([FromRoute] int id)
     {
-      var pc = await context.ProductCategories.Where(i => i.ProductCategoryID == id).FirstOrDefaultAsync();
-      if(pc !=null)
-      {
-        context.Remove(pc);
-        await context.SaveChangesAsync();
-        return Ok();
-      }
+      var pc = await _context.ProductCategories.Where(i => i.ProductCategoryID == id).FirstOrDefaultAsync();
+      if (pc == null) return BadRequest();
+      _context.Remove(pc);
+      await _context.SaveChangesAsync();
+      return Ok();
 
-      return BadRequest();
     }
 
   }

@@ -66,7 +66,7 @@ export class MainService {
     return this.http.post(this.root + 'ProductCategory/'+id+"?newtitle="+newtitle, null,{headers : this.auth.getAuthorizationHeaders()});
   }
 
-  public DeleteProduct(id: number){
+  public DeleteProductCategory(id: number){
     return this.http.delete(this.root + 'ProductCategory/' + id, {headers : this.auth.getAuthorizationHeaders()} )
 
   }

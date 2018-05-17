@@ -85,13 +85,11 @@ namespace AngularSPAWebAPI.Controllers
 
             var result = await _userManager.CreateAsync(user, model.password);
 
-            if (result.Succeeded)
-            {
-                await addToRole(model.username, "user");
-                await addClaims(model.username);
-            }
+          if (!result.Succeeded) return new JsonResult(result);
+          await AddToRole(model.username, "user");
+          await AddClaims(model.username);
 
-            return new JsonResult(result);
+          return new JsonResult(result);
         }
 
         /// <summary>
@@ -109,13 +107,13 @@ namespace AngularSPAWebAPI.Controllers
             return new JsonResult(result);
         }
 
-        private async Task addToRole(string userName, string roleName)
+        private async Task AddToRole(string userName, string roleName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             await _userManager.AddToRoleAsync(user, roleName);
         }
 
-        private async Task addClaims(string userName)
+        private async Task AddClaims(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             var claims = new List<Claim> {

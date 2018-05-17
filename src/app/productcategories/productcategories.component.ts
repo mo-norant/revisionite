@@ -59,7 +59,7 @@ private getProductsCats(){
 }
 
 delete(item) {
-  this.mainservice.DeleteProduct(item.productCategoryID).subscribe(data => {
+  this.mainservice.DeleteProductCategory(item.productCategoryID).subscribe(data => {
     this.productcategories = [];
     this.getProductsCats();
 

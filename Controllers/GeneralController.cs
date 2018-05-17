@@ -17,11 +17,11 @@ namespace AngularSPAWebAPI.Controllers
   [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
   public class GeneralController : Controller
     {
-    private readonly UserManager<ApplicationUser> usermanager;
-    private readonly RoleManager<IdentityRole> rolemanager;
-    private readonly SignInManager<ApplicationUser> signinmanager;
-    private readonly ApplicationDbContext context;
-    private readonly IHostingEnvironment env;
+    private readonly UserManager<ApplicationUser> _usermanager;
+    private readonly RoleManager<IdentityRole> _rolemanager;
+    private readonly SignInManager<ApplicationUser> _signinmanager;
+    private readonly ApplicationDbContext _context;
+    private readonly IHostingEnvironment _env;
 
 
     public GeneralController(
@@ -31,18 +31,18 @@ namespace AngularSPAWebAPI.Controllers
         ApplicationDbContext context, IHostingEnvironment env
 )
     {
-      this.usermanager = usermanager;
-      this.rolemanager = rolemanager;
-      this.signinmanager = signinmanager;
-      this.context = context;
-      this.env = env;
+      this._usermanager = usermanager;
+      this._rolemanager = rolemanager;
+      this._signinmanager = signinmanager;
+      this._context = context;
+      this._env = env;
     }
 
 
     [HttpGet("email")]
     public async Task<IActionResult> GetEmail()
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
       if (user != null)
       {

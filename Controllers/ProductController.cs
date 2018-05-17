@@ -22,11 +22,11 @@ namespace AngularSPAWebAPI.Controllers
   [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
   public class ProductController : Controller
     {
-    private readonly UserManager<ApplicationUser> usermanager;
-    private readonly RoleManager<IdentityRole> rolemanager;
-    private readonly SignInManager<ApplicationUser> signinmanager;
-    private readonly ApplicationDbContext context;
-    private readonly IHostingEnvironment env;
+    private readonly UserManager<ApplicationUser> _usermanager;
+    private readonly RoleManager<IdentityRole> _rolemanager;
+    private readonly SignInManager<ApplicationUser> _signinmanager;
+    private readonly ApplicationDbContext _context;
+    private readonly IHostingEnvironment _env;
 
 
     public ProductController(
@@ -36,17 +36,17 @@ namespace AngularSPAWebAPI.Controllers
         ApplicationDbContext context, IHostingEnvironment env
 )
     {
-      this.usermanager = usermanager;
-      this.rolemanager = rolemanager;
-      this.signinmanager = signinmanager;
-      this.context = context;
-      this.env = env;
+      this._usermanager = usermanager;
+      this._rolemanager = rolemanager;
+      this._signinmanager = signinmanager;
+      this._context = context;
+      this._env = env;
     }
 
     [HttpPost]
     public async Task<IActionResult> Product( [FromBody] Product temp )
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
 
       if(user != null)
@@ -69,8 +69,8 @@ namespace AngularSPAWebAPI.Controllers
           
         };
         product.UserID = user.Id;
-        await context.Products.AddAsync(product);
-        await context.SaveChangesAsync();
+        await _context.Products.AddAsync(product);
+        await _context.SaveChangesAsync();
         return Ok(product.ProductID);
       }
 
@@ -80,12 +80,12 @@ namespace AngularSPAWebAPI.Controllers
     [HttpGet("count")]
     public async Task<IActionResult> ProductCount()
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
       if(user != null)
       {
 
-        var productscount = await context.Products.Where(p => p.UserID == user.Id).CountAsync();
+        var productscount = await _context.Products.Where(p => p.UserID == user.Id).CountAsync();
 
         return Ok(productscount);
       }
@@ -96,11 +96,11 @@ namespace AngularSPAWebAPI.Controllers
     [HttpGet]
     public async Task<IActionResult> Product([FromQuery] int index, [FromQuery] int count )
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
       if(user != null)
       {
-        var actualcount = await context.Products.Where(p => p.UserID == user.Id).CountAsync();
+        var actualcount = await _context.Products.Where(p => p.UserID == user.Id).CountAsync();
 
         if (actualcount == 0)
         {
@@ -109,7 +109,7 @@ namespace AngularSPAWebAPI.Controllers
 
         if (actualcount > index * count)
         {
-          var products = await context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories)
+          var products = await _context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories)
             .Skip(index * count).Take(count).ToListAsync();
 
           return Ok(products);
@@ -127,7 +127,7 @@ namespace AngularSPAWebAPI.Controllers
             tempindex = 0;
           }
 
-          var products = await context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories).Skip(tempindex).Take(count).ToListAsync();
+          var products = await _context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories).Skip(tempindex).Take(count).ToListAsync();
 
           return Ok(products);
         }
@@ -147,25 +147,25 @@ namespace AngularSPAWebAPI.Controllers
     }
 
     [HttpPost("update/{id}")]
-    public async Task<IActionResult> UpdateProduct([FromBody] Product product, [FromRoute] int ID)
+    public async Task<IActionResult> UpdateProduct([FromBody] Product product, [FromRoute] int id)
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
       if (user != null)
       {
-        var old = await context.Products.Where(i => product.ProductID == product.ProductID).Where(i => i.UserID == product.UserID).FirstOrDefaultAsync();
+        var old = await _context.Products.Where(i => product.ProductID == product.ProductID).Where(i => i.UserID == product.UserID).FirstOrDefaultAsync();
         if (old == null)
         {
           return NotFound();
         }
 
 
-        context.Entry(old).CurrentValues.SetValues(product);
+        _context.Entry(old).CurrentValues.SetValues(product);
 
         foreach (var pc in old.ProductCategories.ToList())
         {
           if (!product.ProductCategories.Any(c => c.ProductCategoryID == pc.ProductCategoryID))
-            context.ProductCategories.Remove(pc);
+            _context.ProductCategories.Remove(pc);
         }
 
         foreach (var pc in product.ProductCategories)
@@ -176,7 +176,7 @@ namespace AngularSPAWebAPI.Controllers
 
           if (existingChild != null)
             // Update child
-            context.Entry(existingChild).CurrentValues.SetValues(pc);
+            _context.Entry(existingChild).CurrentValues.SetValues(pc);
           else
           {
             // Insert child
@@ -188,7 +188,7 @@ namespace AngularSPAWebAPI.Controllers
             old.ProductCategories.Add(productcat);
           }
         }
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return Ok();
 
       }
@@ -198,14 +198,14 @@ namespace AngularSPAWebAPI.Controllers
 
 
     [HttpPost("File/{id}")]
-    public async Task<IActionResult> Product([FromRoute] int Id)
+    public async Task<IActionResult> Product([FromRoute] int id)
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
       if (user != null)
       {
 
-        var product = await context.Products.Where(i => i.UserID == user.Id).Where(i => i.ProductID == Id).FirstOrDefaultAsync();
+        var product = await _context.Products.Where(i => i.UserID == user.Id).Where(i => i.ProductID == id).FirstOrDefaultAsync();
 
         if (product == null)
         {
@@ -219,7 +219,7 @@ namespace AngularSPAWebAPI.Controllers
           if (image != null && image.Length > 0)
           {
             var file = image;
-            var uploads = Path.Combine(env.WebRootPath, "uploads\\image");
+            var uploads = Path.Combine(_env.WebRootPath, "uploads\\image");
             if (file.Length > 0)
             {
               var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
@@ -231,7 +231,7 @@ namespace AngularSPAWebAPI.Controllers
             }
           }
         }
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return Ok();
       }
 
@@ -242,15 +242,15 @@ namespace AngularSPAWebAPI.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProduct([FromRoute] int id)
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
       if(user != null)
       {
-        var item = await context.Products.Where(p => p.ProductID == id).Where(i => i.UserID == user.Id).Include(i => i.ProductCategories).FirstOrDefaultAsync();
+        var item = await _context.Products.Where(p => p.ProductID == id).Where(i => i.UserID == user.Id).Include(i => i.ProductCategories).FirstOrDefaultAsync();
 
-        context.RemoveRange(item.ProductCategories);
-        context.Remove(item);
-        await context.SaveChangesAsync();
+        _context.RemoveRange(item.ProductCategories);
+        _context.Remove(item);
+        await _context.SaveChangesAsync();
         return Ok();
 
       }
@@ -262,11 +262,11 @@ namespace AngularSPAWebAPI.Controllers
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProduct([FromRoute] int id)
     {
-      var user = await usermanager.GetUserAsync(User);
+      var user = await _usermanager.GetUserAsync(User);
 
       if(user != null)
       {
-        var item = await context.Products.Where(i => i.ProductID == id).Where(i => i.UserID == user.Id).Include(p => p.ProductCategories).FirstOrDefaultAsync();
+        var item = await _context.Products.Where(i => i.ProductID == id).Where(i => i.UserID == user.Id).Include(p => p.ProductCategories).FirstOrDefaultAsync();
 
         if(item == null)
         {
