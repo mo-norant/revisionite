@@ -21,7 +21,7 @@ export class ProductlistComponent implements OnInit {
   ngOnInit() {
 
     this.getProducts();
-    
+
   }
 
   updateItemsPerPage($event){
@@ -51,7 +51,6 @@ export class ProductlistComponent implements OnInit {
   }
 
 onRowSelect($event){
-  console.log($event)
 }
 
 onSort(){

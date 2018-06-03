@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{F0FB30F9-2B8C-4658-92B7-0A99702A2586}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Models/Product.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ProductController.cs">
     <Files>
       <File FileName="Startup.cs" Line="37" Column="7" />
       <File FileName="appsettings.json" Line="1" Column="1" />
       <File FileName="Program.cs" Line="39" Column="1" />
-      <File FileName="Controllers/ProductController.cs" Line="152" Column="17" />
+      <File FileName="Controllers/ProductController.cs" Line="156" Column="36" />
       <File FileName="Data/ApplicationDbContext.cs" Line="11" Column="65" />
       <File FileName="Models/ApplicationUser.cs" Line="8" Column="6" />
       <File FileName="Models/Product.cs" Line="15" Column="26" />
@@ -14,10 +14,8 @@
         <State name="__root__">
           <Node name="AngularSPAWebAPI" expanded="True">
             <Node name="AngularSPAWebAPI" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Data" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="Product.cs" selected="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="ProductController.cs" selected="True" />
               </Node>
             </Node>
           </Node>
