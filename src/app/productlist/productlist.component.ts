@@ -14,7 +14,8 @@ export class ProductlistComponent implements OnInit {
   itemsperpage: number = 5;
   index: number = 0;
   products: Product[];
-  productcount : number
+  productcount : number;
+  sorting : string;
   constructor(private mainservice: MainService) { }
 
   ngOnInit() {
@@ -32,16 +33,14 @@ export class ProductlistComponent implements OnInit {
   paginate($event){
     this.itemsperpage = $event.rows;
     this.index = $event.page;
-    this.getProducts();
+    this.onSort();
   }
 
   getProducts(){
     this.loading = true;
     this.mainservice.GetProductsCount().subscribe(t => {
       this.productcount = t;
-      this.mainservice.GetProducts(this.index, this.itemsperpage).subscribe(res => {
-        console.log(res);
-        this.loading = false;
+      this.mainservice.GetProducts(this.index, this.itemsperpage, 'ProductID', false  ).subscribe(res => {        this.loading = false;
         this.products = res;
       }, err => {
         this.loading = false;
@@ -53,6 +52,20 @@ export class ProductlistComponent implements OnInit {
 
 onRowSelect($event){
   console.log($event)
+}
+
+onSort(){
+  this.loading = true;
+  this.mainservice.GetProductsCount().subscribe(t => {
+    this.productcount = t;
+    this.mainservice.GetProducts(this.index, this.itemsperpage, this.sorting , true  ).subscribe(res => {        this.loading = false;
+      this.products = res;
+    }, err => {
+      this.loading = false;
+    })
+  }, () => {
+    this.loading = false;
+  });
 }
 
 }

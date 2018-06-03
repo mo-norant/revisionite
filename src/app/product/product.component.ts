@@ -1,4 +1,4 @@
-import { Product } from './../models';
+import { Product, ProductCategorie } from './../models';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MainService } from '../main.service';
@@ -16,13 +16,11 @@ export class ProductComponent implements OnInit {
   loading: boolean;
   changed: boolean;
   ID: number;
+
   constructor(private formBuilder: FormBuilder,  private mainservice: MainService, private router: Router,
-    private route: ActivatedRoute,  ) { 
-      
-    }
+    private route: ActivatedRoute) {}
 
   ngOnInit() {
-
     this.route.params.subscribe( params => {
       this.mainservice.GetProduct(params['id']).subscribe(res => {
         this.ID = params['id'];
@@ -35,30 +33,23 @@ export class ProductComponent implements OnInit {
           productcategories: [this.product.productCategories, [Validators.required]]
         });
         this.onChanges();
-
-
       });
     });
-
-   
-
-   
    }
 
    back(){
-        this.router.navigate(['products'])
+        this.router.navigate(['products']);
    }
 
    update(){
       this.mainservice.UpdateProduct(this.ID, this.product).subscribe(res => {
-        this.router.navigate(['products'])
+        this.router.navigate(['products']);
       })
      }
 
    delete(){
     this.mainservice.DeleteProduct(this.ID, this.product).subscribe(res => {
-      console.log('product verwijderd')
-      this.router.navigate(['products'])
+      this.router.navigate(['products']);
     })
    }
 
@@ -66,23 +57,24 @@ export class ProductComponent implements OnInit {
     this.form.valueChanges.subscribe(val => {
       this.changedstate();
       this.product = val;
-
-    });
+      this.product.productID = this.ID;
+        });
   }
 
   private changedstate(){
     if(this.form.valid){
       this.changed = true;
-
     }else{
       this.changed = false;
     }
   }
 
+  addCat($event){
+    this.changedstate();
+    this.product.productCategories.push(new ProductCategorie(0, $event.value));
+    this.product.productCategories = this.product.productCategories.filter(i => i.productCategoryID != undefined);
+  }
 
-    
-
-  
 
 
   }

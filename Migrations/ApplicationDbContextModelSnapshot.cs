@@ -79,6 +79,8 @@ namespace AngularSPAWebAPI.Migrations
                     b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Base64");
+
                     b.Property<DateTime>("Create");
 
                     b.Property<string>("Description");
@@ -88,8 +90,6 @@ namespace AngularSPAWebAPI.Migrations
                     b.Property<float>("Price");
 
                     b.Property<string>("ProductTitle");
-
-                    b.Property<string>("URI");
 
                     b.Property<string>("UserID");
 

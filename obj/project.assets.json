@@ -13589,30 +13589,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mo\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/Users/mo/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\Mac\\Home\\Desktop\\2017-2018\\cloudapi\\AngularSPAWebAPI\\AngularSPAWebAPI.csproj",
+      "projectUniqueName": "/Users/mo/Desktop/2017-2018/cloudapi/AngularSPAWebAPI/AngularSPAWebAPI.csproj",
       "projectName": "AngularSPAWebAPI",
-      "projectPath": "\\\\Mac\\Home\\Desktop\\2017-2018\\cloudapi\\AngularSPAWebAPI\\AngularSPAWebAPI.csproj",
-      "packagesPath": "C:\\Users\\mo\\.nuget\\packages\\",
-      "outputPath": "\\\\Mac\\Home\\Desktop\\2017-2018\\cloudapi\\AngularSPAWebAPI\\obj\\",
+      "projectPath": "/Users/mo/Desktop/2017-2018/cloudapi/AngularSPAWebAPI/AngularSPAWebAPI.csproj",
+      "packagesPath": "/Users/mo/.nuget/packages/",
+      "outputPath": "/Users/mo/Desktop/2017-2018/cloudapi/AngularSPAWebAPI/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\mo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/mo/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -13629,38 +13627,39 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Microsoft.NETCore.App": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "2.0",
+            "autoReferenced": true
+          },
           "IdentityServer4": {
             "target": "Package",
-            "version": "[2.0.0, )"
+            "version": "2.0.0"
           },
           "IdentityServer4.AccessTokenValidation": {
             "target": "Package",
-            "version": "[2.0.0, )"
+            "version": "2.0.0"
           },
           "IdentityServer4.AspNetIdentity": {
             "target": "Package",
-            "version": "[2.0.0, )"
+            "version": "2.0.0"
           },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
-            "version": "[2.0.0, )"
-          },
-          "Microsoft.NETCore.App": {
-            "target": "Package",
-            "version": "[2.0.0, )",
-            "autoReferenced": true
+            "version": "2.0.0"
           },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
-            "version": "[2.0.2, )"
+            "version": "2.0.2"
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
-            "version": "[2.0.1, )"
+            "version": "2.0.1"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
-            "version": "[2.4.0, )"
+            "version": "2.4.0"
           }
         },
         "imports": [

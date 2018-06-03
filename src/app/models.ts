@@ -8,12 +8,12 @@ export class Product{
         public userID: string
         public productTitle: string
         public description: string
-        public views : number
+        public vieuws : number
         public price: number
         public create : Date
         public endTime: Date
-        public uri: string
+        public base64: string
         public productCategories: ProductCategorie[]
-    
+
 }
 

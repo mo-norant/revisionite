@@ -17,14 +17,14 @@
 
         <section>
 
-          <p-fileUpload (onRemove)="imageRemoved()" name="myfile[]" multiple="false" auto="true" customUpload="true" (uploadHandler)="uploadpicture($event)"
+          <p-fileUpload (onRemove)="imageRemoved($event)" name="myfile[]" multiple="false" auto="true" customUpload="true" (uploadHandler)="uploadpicture($event)"
             accept="image/*"></p-fileUpload>
 
         </section>
 
 
         <section *ngIf="productcategories" class="mb-2 mt-2">
-          <p-chips [(ngModel)]="productcategories">
+          <p-chips (onAdd)='addCat($event)' [(ngModel)]="productcategories">
             <ng-template let-item pTemplate="item">
               {{item.productCategoryTitle}}
               <p> </p>

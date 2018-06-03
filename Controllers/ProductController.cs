@@ -65,8 +65,9 @@ namespace AngularSPAWebAPI.Controllers
           EndTime = temp.EndTime,
           ProductTitle = temp.ProductTitle,
           Price = temp.Price,
-          ProductCategories = temp.ProductCategories
-          
+          ProductCategories = temp.ProductCategories,
+          Base64 = temp.Base64
+     
         };
         product.UserID = user.Id;
         await _context.Products.AddAsync(product);
@@ -94,150 +95,73 @@ namespace AngularSPAWebAPI.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Product([FromQuery] int index, [FromQuery] int count )
+    public async Task<IActionResult> Product([FromQuery] int index, [FromQuery] int count, [FromQuery] string orderby, [FromQuery] bool desc )
     {
       var user = await _usermanager.GetUserAsync(User);
 
-      if(user != null)
+      if (user == null) return BadRequest();
+      var actualcount = await _context.Products.Where(p => p.UserID == user.Id).CountAsync();
+
+      if (actualcount == 0)
       {
-        var actualcount = await _context.Products.Where(p => p.UserID == user.Id).CountAsync();
+        return NotFound("No items");
+      }
 
-        if (actualcount == 0)
-        {
-          return NotFound("No items");
-        }
+      if (desc)
+      {
+          
+        var products = await _context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories)
+          .OrderByDescending(i => i.GetType().GetField(orderby)).Skip(index * count).Take(count).ToListAsync();
 
-        if (actualcount > index * count)
-        {
-          var products = await _context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories)
-            .Skip(index * count).Take(count).ToListAsync();
+        return Ok(products);
+      }
 
-          return Ok(products);
+      if (actualcount > index * count)
+      {
 
-        }
-
-        else
-        {
-
-          var tempindex = actualcount - count;
-
-          if(tempindex < 0)
-          {
-            count = actualcount;
-            tempindex = 0;
-          }
-
-          var products = await _context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories).Skip(tempindex).Take(count).ToListAsync();
-
-          return Ok(products);
-        }
-
-
-
-
-
-
-
-
+        var products = await _context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories)
+          .OrderBy(i => i.GetType().GetField(orderby)).Skip(index * count).Take(count).ToListAsync();
+            
+        return Ok(products);
 
       }
 
-      return BadRequest();
+      else
+      {
 
+        var tempindex = actualcount - count;
+
+        if(tempindex < 0)
+        {
+          count = actualcount;
+          tempindex = 0;
+        }
+
+        var products = await _context.Products.Where(p => p.UserID == user.Id).Include(i => i.ProductCategories).Skip(tempindex).Take(count).ToListAsync();
+
+        return Ok(products);
+      }
     }
 
     [HttpPost("update/{id}")]
-    public async Task<IActionResult> UpdateProduct([FromBody] Product product, [FromRoute] int id)
+    public async Task<IActionResult> UpdateProduct([FromRoute] int id, [FromBody] Product temp)
     {
       var user = await _usermanager.GetUserAsync(User);
 
-      if (user != null)
-      {
-        var old = await _context.Products.Where(i => product.ProductID == product.ProductID).Where(i => i.UserID == product.UserID).FirstOrDefaultAsync();
-        if (old == null)
-        {
-          return NotFound();
-        }
+      var product = await _context.Products.Where(i => i.ProductID == id).Include(pr => pr.ProductCategories).Where(incoming => incoming.UserID == user.Id).FirstOrDefaultAsync();
+      product.Description = temp.Description;
+      product.ProductTitle = temp.ProductTitle;
+      product.Price = temp.Price;
+      await _context.SaveChangesAsync();
+        
 
+      return Ok();
 
-        _context.Entry(old).CurrentValues.SetValues(product);
+    
 
-        foreach (var pc in old.ProductCategories.ToList())
-        {
-          if (!product.ProductCategories.Any(c => c.ProductCategoryID == pc.ProductCategoryID))
-            _context.ProductCategories.Remove(pc);
-        }
-
-        foreach (var pc in product.ProductCategories)
-        {
-          var existingChild = old.ProductCategories
-              .Where(c => c.ProductCategoryID == pc.ProductCategoryID)
-              .SingleOrDefault();
-
-          if (existingChild != null)
-            // Update child
-            _context.Entry(existingChild).CurrentValues.SetValues(pc);
-          else
-          {
-            // Insert child
-            var productcat = new ProductCategory
-            {
-              ProductCategoryTitle = pc.ProductCategoryTitle,
-              Date = DateTime.Now
-            };
-            old.ProductCategories.Add(productcat);
-          }
-        }
-        await _context.SaveChangesAsync();
-        return Ok();
-
-      }
-
-      return BadRequest();
     }
 
 
-    [HttpPost("File/{id}")]
-    public async Task<IActionResult> Product([FromRoute] int id)
-    {
-      var user = await _usermanager.GetUserAsync(User);
-
-      if (user != null)
-      {
-
-        var product = await _context.Products.Where(i => i.UserID == user.Id).Where(i => i.ProductID == id).FirstOrDefaultAsync();
-
-        if (product == null)
-        {
-          return NotFound();
-        }
-
-        var files = HttpContext.Request.Form.Files;
-
-        foreach (var image in files)
-        {
-          if (image != null && image.Length > 0)
-          {
-            var file = image;
-            var uploads = Path.Combine(_env.WebRootPath, "uploads\\image");
-            if (file.Length > 0)
-            {
-              var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
-              using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
-              {
-                await file.CopyToAsync(fileStream);
-                product.URI = fileName;
-              }
-            }
-          }
-        }
-        await _context.SaveChangesAsync();
-        return Ok();
-      }
-
-      return BadRequest();
-
-      }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProduct([FromRoute] int id)
@@ -278,6 +202,10 @@ namespace AngularSPAWebAPI.Controllers
       }
 
       return BadRequest();
+    }
+
+    private void PrintToConsole(string log){
+      Console.WriteLine(log);
     }
 
    }

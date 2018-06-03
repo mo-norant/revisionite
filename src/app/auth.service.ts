@@ -6,7 +6,7 @@ import { Utils } from './utils';
 @Injectable()
 export class AuthService {
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
 
 
     this.root = Utils.getRoot();
@@ -20,7 +20,7 @@ export class AuthService {
   private client_id =  'AngularSPA'
   private grant_type =  'password'
   private scope  = 'WebAPI'
-  
+
 
   public createUser(user : RegisterUser){
     return this.http.post(this.root.concat(Endpoints.RegisterUser), user)
@@ -36,7 +36,7 @@ export class AuthService {
     .set('grant_type', this.grant_type)
 
 
-    return this.http.post<JWTToken>(this.root.replace("api","") + this.connectlink, body.toString(), {
+    return this.http.post<JWTToken>(this.root.replace("api/","") + this.connectlink, body.toString(), {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/x-www-form-urlencoded')
     })
@@ -85,7 +85,7 @@ export class AuthService {
     localStorage.removeItem('jwttoken');
     this.finishSession();
   }
-  
+
   public getAuthorizationHeaders() : HttpHeaders{
     return new HttpHeaders({
        'Authorization': 'Bearer ' + this.getToken().access_token
@@ -112,8 +112,8 @@ export class AuthService {
 }
 
 export class JWTToken{
- 
-  
+
+
   constructor(public access_token: string,
     public expires_in : number,
    public token_type: string){}

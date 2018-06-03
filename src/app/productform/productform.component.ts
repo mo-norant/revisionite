@@ -32,7 +32,7 @@ export class ProductformComponent implements OnInit {
 
     });
 
-    
+
   }
 
   ngOnInit() {
@@ -68,26 +68,31 @@ export class ProductformComponent implements OnInit {
 
     this.loading = true;
     let product : Product = new Product();
-    product.endTime = this.form.value.date,
-    product.productTitle = this.form.value.productname,
-    product.description = this.form.value.description,
+    product.endTime = new Date(this.form.value.date);
+    product.productTitle = this.form.value.productname;
+    product.description = this.form.value.description;
     product.price = this.form.value.price;
     product.productCategories = this.productcategories;
 
-    this.mainservice.AddProduct(product).subscribe(data => {
-      this.productid = data; 
-      this.loading = false
-      this.mainservice.PostProductPhoto(this.file, data).subscribe(
-        succes => {
-          this.router.navigate(['dashboard'])
-        }
-      )
-    
-    
-    }, err => this.loading = false, () => this.loading = false);
+    var reader = new FileReader();
 
+      reader.addEventListener("load", (event:any) => {
+      product.base64 = event.target.result;
+
+      this.mainservice.AddProduct(product).subscribe(data => {
+        this.loading = false
+        this.router.navigate(['products'])
+      }, err => this.loading = false, () => this.loading = false);
+
+    });
+      reader.readAsDataURL(this.file);
   }
 
-  
-  
+  addCat($event){
+    this.productcategories.push(new ProductCategorie(0, $event.value));
+    this.productcategories = this.productcategories.filter(i => i.productCategoryID != undefined);
+  }
+
+
+
 }

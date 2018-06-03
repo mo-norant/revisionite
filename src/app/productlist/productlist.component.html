@@ -14,6 +14,24 @@
 
     <section class="row">
       <div class="col-md-12 col-lg-12">
+          <select (ngModelChange)='onSort()'  >
+              <option value="" selected disabled hidden>Choose sorting</option>
+              <option value="ProductID" >ID</option>
+              <option value="ProductTitle">Title</option>
+              <option value="Description">Description</option>
+              <option value="Price">Price</option>
+              <option value="Date">Date</option>
+
+            </select>
+
+            <select (ngModelChange)='onSort()'  >
+                <option value="" selected disabled hidden>Order by</option>
+                <option value="ProductID" >Laag - Hoog</option>
+                <option value="ProductTitle">Hoog - Laag</option>
+
+
+              </select>
+
         <p-progressBar *ngIf="loading"  mode="indeterminate"></p-progressBar>
         <p-paginator (onPageChange)="paginate($event)" [rows]="itemsperpage" [totalRecords]="productcount" [rowsPerPageOptions]="[5,10,25,50]"></p-paginator>
         <p-table   (onRowSelect)="onRowSelect($event)" selectionMode="single" [responsive]="true" [value]="products">

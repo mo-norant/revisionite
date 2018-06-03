@@ -25,8 +25,6 @@ namespace AngularSPAWebAPI
             Configuration = configuration;
             currentEnvironment = env;
 
-      CreatePaths();
-
         }
 
         public IConfiguration Configuration { get; }
@@ -138,17 +136,10 @@ namespace AngularSPAWebAPI
                 app.UseDeveloperExceptionPage();
 
                 // Starts "npm start" command using Shell extension.
-                app.Shell("ng build");
+                app.Shell("ng build --prod");
             }
 
-            // Router on the server must match the router on the client (see app.routing.module.ts) to use PathLocationStrategy.
-            var appRoutes = new[] {
-                 "/home",
-                 "/account/signin",
-                 "/account/signup",
-                 "/resources",
-                 "/dashboard"
-            };
+
 
             app.Use(async (context, next) => {
                 await next();
@@ -165,11 +156,9 @@ namespace AngularSPAWebAPI
 
       app.UseMvc();
 
-            // Microsoft.AspNetCore.StaticFiles: API for starting the application from wwwroot.
-            // Uses default files as index.html.
-            app.UseDefaultFiles();
-            // Uses static file for the current path.
-            app.UseStaticFiles();
+           
+      app.UseDefaultFiles();
+      app.UseStaticFiles();
 
      
 
@@ -182,13 +171,6 @@ namespace AngularSPAWebAPI
             });
         }
 
-    private void CreatePaths()
-    {
-     
-      string path = currentEnvironment.WebRootPath + "uploads\\image";
-
-      if (!Directory.Exists(path))
-        Directory.CreateDirectory(path);
-    }
+   
   }
 }
