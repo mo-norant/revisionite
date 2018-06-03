@@ -14,8 +14,7 @@
 
     <section class="row">
       <div class="col-md-12 col-lg-12">
-          <select (ngModelChange)='onSort()'  >
-              <option value="" selected disabled hidden>Choose sorting</option>
+          <select [(ngModel)]="sorting" (ngModelChange)='onSort()'  >
               <option value="ProductID" >ID</option>
               <option value="ProductTitle">Title</option>
               <option value="Description">Description</option>
@@ -24,13 +23,14 @@
 
             </select>
 
-            <select (ngModelChange)='onSort()'  >
-                <option value="" selected disabled hidden>Order by</option>
-                <option value="asc" >Laag - Hoog</option>
-                <option value="desc">Hoog - Laag</option>
+            <select [(ngModel)]="ascdesc" (ngModelChange)='onSort()'  >
+                <option value="asc" >Hoog - Laag</option>Hoog - Laag
+                <option value="desc">Laag - Hoog</option>
 
 
               </select>
+
+              <input type="text" name="filter" (ngModelChange)='onFilter()' [(ngModel)]="filter"  >
 
         <p-progressBar *ngIf="loading"  mode="indeterminate"></p-progressBar>
         <p-paginator (onPageChange)="paginate($event)" [rows]="itemsperpage" [totalRecords]="productcount" [rowsPerPageOptions]="[5,10,25,50]"></p-paginator>

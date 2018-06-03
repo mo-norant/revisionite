@@ -43,6 +43,10 @@ export class AuthService {
 
   }
 
+  public signOut(){
+    return this.http.post(this.root + "general/SignOut", null, { headers: this.getAuthorizationHeaders() });
+  }
+
   public saveToken(token: JWTToken){
     this.startSession();
     localStorage.setItem('jwttoken', JSON.stringify(token));

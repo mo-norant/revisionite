@@ -52,9 +52,6 @@ export class MainService {
   }
 
   public UpdateProduct(id: number, product: Product) {
-
-    console.log(product);
-
     return this.http.post(this.root + 'Product/update/' + id, product, { headers: this.auth.getAuthorizationHeaders() })
   }
 
@@ -77,6 +74,15 @@ export class MainService {
 
   public DeleteProductCategory(id: number) {
     return this.http.delete(this.root + 'ProductCategory/' + id, { headers: this.auth.getAuthorizationHeaders() })
+
+  }
+
+  public GetFiltered(filter: string) {
+
+    let options = new HttpParams()
+    .append("filter", filter);
+
+    return this.http.get<Product[]>(this.root + 'Product/filtered',  { headers: this.auth.getAuthorizationHeaders(), params : options });
 
   }
 }

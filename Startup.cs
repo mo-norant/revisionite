@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,8 +64,8 @@ namespace AngularSPAWebAPI
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = false;
                 // Lockout settings.
-                options.Lockout.AllowedForNewUsers = true;
-                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.AllowedForNewUsers = false;
+                options.Lockout.MaxFailedAccessAttempts = 100;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(1);
             });
 
@@ -134,8 +135,6 @@ namespace AngularSPAWebAPI
             {
                 app.UseDeveloperExceptionPage();
 
-                // Starts "npm start" command using Shell extension.
-                app.Shell("ng build --prod");
             }
 
 

@@ -6,13 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\**" />
-    <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
-    <None Remove="wwwroot\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="2.0.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.0.0" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.0.0" />
@@ -31,6 +24,8 @@
   <ItemGroup>
     <Folder Include="client\" />
     <Folder Include="Properties\PublishProfiles\" />
+      <Folder Include="wwwroot\" />
+
   </ItemGroup>
 
   <ItemGroup>
@@ -44,5 +39,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
+
+
 
 </Project>

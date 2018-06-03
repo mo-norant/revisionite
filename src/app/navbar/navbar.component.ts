@@ -19,13 +19,16 @@ export class NavbarComponent implements OnInit {
     this.mainservice.GetEmailUser().subscribe(data => {
       this.email = data;
     })
-  
+
   }
 
 
   logout(){
 
-    this.auth.removeToken();
-    this.router.navigate(['/'])
+    this.auth.signOut().subscribe( success => {
+      this.auth.removeToken();
+      this.router.navigate(['/'])
+    });
+
   }
 }

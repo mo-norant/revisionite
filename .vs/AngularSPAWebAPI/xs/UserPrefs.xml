@@ -1,29 +1,15 @@
 ﻿<Properties StartupConfiguration="{F0FB30F9-2B8C-4658-92B7-0A99702A2586}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ProductController.cs">
     <Files>
-      <File FileName="Startup.cs" Line="37" Column="7" />
-      <File FileName="appsettings.json" Line="1" Column="1" />
-      <File FileName="Program.cs" Line="39" Column="1" />
-      <File FileName="Controllers/ProductController.cs" Line="156" Column="36" />
-      <File FileName="Data/ApplicationDbContext.cs" Line="11" Column="65" />
-      <File FileName="Models/ApplicationUser.cs" Line="8" Column="6" />
-      <File FileName="Models/Product.cs" Line="15" Column="26" />
+      <File FileName=".angular-cli.json" Line="9" Column="25" />
+      <File FileName="Startup.cs" Line="69" Column="77" />
+      <File FileName="AngularSPAWebAPI.csproj" Line="39" Column="69" />
+      <File FileName="Controllers/GeneralController.cs" Line="54" Column="6" />
+      <File FileName="Config.cs" Line="56" Column="53" />
+      <File FileName="Controllers/ProductController.cs" Line="96" Column="5" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="AngularSPAWebAPI" expanded="True">
-            <Node name="AngularSPAWebAPI" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="ProductController.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -94,6 +94,25 @@
         return BadRequest();
       }
 
+
+    [HttpGet("filtered")]
+    public async Task<IActionResult> FilteredProduct([FromQuery] string filter){
+
+      var user = await _usermanager.GetUserAsync(User);
+
+      if (user == null) return BadRequest();
+      var actualcount = await _context.Products.Where(p => p.UserID == user.Id).CountAsync();
+
+      if (actualcount == 0)
+      {
+        return NotFound("No items");
+      }
+
+      var products = await _context.Products.Where(p => p.ProductTitle.Contains(filter)).Include(p => p.ProductCategories).ToListAsync();
+      return Ok(products);
+
+    }
+
     [HttpGet]
     public async Task<IActionResult> Product([FromQuery] int index, [FromQuery] int count, [FromQuery] string orderby, [FromQuery] bool desc)
     {

@@ -39,6 +39,26 @@ namespace AngularSPAWebAPI.Controllers
     }
 
 
+
+    [HttpPost("validtoken")]
+    public IActionResult ValidToken(){
+
+
+      var isSignedIn = _signinmanager.IsSignedIn(User);
+      return Ok(isSignedIn);
+
+
+    }
+    [HttpPost("SignOut")]
+    public async Task<IActionResult> SignOut()
+    {
+
+      await _signinmanager.SignOutAsync();
+      return Ok();
+
+
+    }
+
     [HttpGet("email")]
     public async Task<IActionResult> GetEmail()
     {

@@ -5,8 +5,8 @@
 @import "../node_modules/primeng/resources/primeng.min.css";
 
 
-$primary-color: #7376df;
-$primary-color-hover: #6365d2;
+$primary-color: #1e9e4f;
+$primary-color-hover: #146132;
 $almost-white: #f7f7f7;
 $lighter-gray: #dfdfdf;
 $light-gray: #a0a0a0;
@@ -21,7 +21,7 @@ $headline-font: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 // General Styles
- 
+
 body {
  	background-color: #ffffff;
  	font-family: $main-font;
@@ -329,11 +329,11 @@ p {
 		letter-spacing: .2rem;
 		padding: .75rem 1rem;
 	}
-	
+
 	em {
 		font-size: 1rem;
 	}
-	
+
 	h1 {
 		color: #fff;
 		border: none;
@@ -342,7 +342,7 @@ p {
 		text-transform: uppercase;
 		letter-spacing: .2rem;
 	}
-	
+
 	.site-title {
 		margin-top: .5rem;
 		margin-bottom: 1.75rem;
@@ -356,23 +356,23 @@ p {
 			background: none!important;
 		}
 	}
-	
+
 	.nav {
 		margin-bottom: 20px;
 	}
-	
+
 	.nav-item {
 		width: 100%;
 	}
-	
+
 	.nav-item + .nav-item {
 		margin-left: 0;
 	}
-	
+
 	.nav-link {
 		border-radius: 0;
 	}
-	
+
 	.logout-button {
 		position: absolute;
 		bottom: 20px;
@@ -401,17 +401,17 @@ p {
 	#wrapper .sidebar-nav {
 		display: none;
 	}
-	
+
 	#wrapper.toggled .sidebar-nav {
 		display: block!important;
 	}
-	
+
 	.sidebar {
 		position: inherit;
 		padding-bottom: 0px;
 		margin-bottom: 1rem;
 	}
-	
+
 	#menu-toggle {
 		background-color: $primary-color-hover;
 	}
@@ -420,7 +420,7 @@ p {
 	#wrapper.toggled .sidebar-nav {
 		display: block;
 	}
-	
+
 	#menu-toggle {
 		display: none;
 	}
@@ -723,11 +723,11 @@ p {
 		margin: 0 .25rem 0 0;
 		color: $dark-gray;
 	}
-	
+
 	.fa:hover {
 		color: $primary-color;
 	}
-	
+
 	input[type=checkbox] {
 		margin: 0 .5rem 0 0!important;
 		border: 1px solid #333;
